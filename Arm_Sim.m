@@ -136,14 +136,13 @@ function q_dot_star = qdot(t,q)
 
 % Steepest descent optimization to avoid uncomfortable positions
     X = 1.8; %arbitrary, determines the rate of convergence 
-    n = -grad_V(q)/norm(grad_V(q));
 
     %Projection of n onto the null space of J
     NS = null(J(q));
-    n_null = (dot(n,NS))*NS/norm(NS);
+    n = NS/norm(NS);
 
     %Optimization contribution of joint space
-    delta_q_dot = -X*dot(grad_V(q),n_null)*n_null;
+    delta_q_dot = -X*dot(grad_V(q),n)*n;
 
     %Combining minimization term with optimization term
     q_dot_star = q_dot_star + delta_q_dot;
