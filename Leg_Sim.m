@@ -61,14 +61,13 @@ function q_dot = state_deriv(t,q)
     
     %Optimize to avoid uncomfortable joint positions
     X = 1; %Rate of convergence
-    n = -cost_deriv(q)/norm(cost_deriv(q));
     
     %Project solution onto null space
     NS = null(J);
-    n_null = (dot(n,NS))*NS/norm(NS);
+    n = NS/norm(NS);
     
     %Scale null space projection
-    q_dot_null = -X*dot(cost_deriv(q),n_null)*n_null;
+    q_dot_null = -X*dot(cost_deriv(q),n)*n;
     
     %Determine the final q_dot solution
     q_dot = q_dot_1 + q_dot_null;
